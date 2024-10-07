@@ -28,10 +28,6 @@
             text-align: center;
         }
 
-        .login-container h2 {
-            margin-bottom: 1.5rem;
-        }
-
         input[type="text"],
         input[type="password"] {
             width: 100%;
@@ -86,12 +82,27 @@
             var username = document.getElementById("username").value;
             var password = document.getElementById("password").value;
 
-            // ตรวจสอบว่าใส่ข้อมูลครบถ้วนหรือไม่
             if (username === "" || password === "") {
                 alert("กรุณากรอกชื่อ-นามสกุล และรหัสนักศึกษา");
             } else {
-                // Redirect ไปยังลิงก์ที่คุณต้องการ
-                window.location.href = "https://sites.google.com/rmuti.ac.th/mechanical-drawing/%E0%B8%AB%E0%B8%99%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%81";
+                // ใช้ URL ของ Google Apps Script ที่คุณให้มา
+                fetch('https://script.google.com/macros/s/AKfycbzcUstC0Zwt7YmJ6Uv60E72QDSPlPimD5oJejFLbQQkQHGMuU7h9sIyeAvNLkguqreh/exec', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        'username': username,
+                        'studentId': password
+                    })
+                }).then(response => {
+                    // เมื่อบันทึกข้อมูลสำเร็จ พาไปหน้าแรก
+                    window.location.href = "https://sites.google.com/rmuti.ac.th/mechanical-drawing";
+                }).catch(error => {
+                    console.error('Error:', error);
+                    alert('เกิดข้อผิดพลาดในการเข้าสู่ระบบ');
+                });
             }
         }
     </script>
